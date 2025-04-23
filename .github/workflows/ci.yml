@@ -23,14 +23,14 @@ jobs:
 
     - name: Install dependencies
       run: |
-        # Ensure the environment is up to date
+        # Update package list
         sudo apt-get update
-        sudo apt-get install -y wget unzip chromium-browser
+        # Install Chromium from official repository
+        sudo apt-get install -y chromium-browser
 
     - name: Download and install ChromeDriver
       run: |
-        # Check Chromium version
-        echo "Checking Chromium version..."
+        # Get the version of Chromium installed
         CHROME_VERSION=$(chromium-browser --version | awk '{print $3}' | cut -d '.' -f1,2)
         if [ -z "$CHROME_VERSION" ]; then
           echo "Error: Chromium version not found!"
@@ -39,7 +39,7 @@ jobs:
           echo "Chromium version found: $CHROME_VERSION"
         fi
 
-        # Get compatible ChromeDriver version based on the Chrome version
+        # Get the corresponding ChromeDriver version
         DRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION})
 
         if [ -z "$DRIVER_VERSION" ]; then
