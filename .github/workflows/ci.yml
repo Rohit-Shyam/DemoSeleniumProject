@@ -28,17 +28,22 @@ jobs:
 
     - name: Download and install ChromeDriver
       run: |
-        # Try to get the current version of Chromium installed in the environment
-        CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f1,2) || CHROME_VERSION=$(chromium-browser --version | awk '{print $3}' | cut -d '.' -f1,2)
-
-        # If CHROME_VERSION is empty or not found, output an error
+        echo "Checking Chromium version..."
+        CHROME_VERSION=$(chromium-browser --version | awk '{print $3}' | cut -d '.' -f1,2)
         if [ -z "$CHROME_VERSION" ]; then
           echo "Error: Chrome version not found!"
           exit 1
+        else
+          echo "Chromium version found: $CHROME_VERSION"
         fi
 
-        # Download the corresponding ChromeDriver version based on the Chrome version
         DRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION})
+
+        # If no driver version found, exit with an error
+        if [ -z "$DRIVER_VERSION" ]; then
+          echo "Error: Could not determine compatible ChromeDriver version!"
+          exit 1
+        fi
 
         # Download ChromeDriver zip and extract it
         wget https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip
