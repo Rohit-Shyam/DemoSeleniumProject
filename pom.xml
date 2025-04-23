@@ -7,12 +7,27 @@
     <artifactId>DemoSeleniumProject</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <repositories>
+        <!-- Custom Repository for Selenium DevTools -->
+        <repository>
+            <id>selenium-repo</id>
+            <url>https://selenium-release.storage.googleapis.com</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.17.0</version>
+            <version>4.31.0</version>
+        </dependency>
+
+        <!-- Selenium ChromeDriver -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-chrome-driver</artifactId>
+            <version>4.31.0</version> <!-- Match version with selenium-java -->
         </dependency>
 
         <!-- Cucumber -->
@@ -21,6 +36,7 @@
             <artifactId>cucumber-java</artifactId>
             <version>7.11.2</version>
         </dependency>
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
@@ -36,6 +52,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 
     <build>
         <plugins>
