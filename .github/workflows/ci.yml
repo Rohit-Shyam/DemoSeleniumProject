@@ -44,13 +44,9 @@ jobs:
 
     - name: Get and install ChromeDriver
       run: |
-        # Get the corresponding ChromeDriver version based on Chromium version
-        DRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION})
-
-        if [ -z "$DRIVER_VERSION" ]; then
-          echo "Error: Could not determine compatible ChromeDriver version!"
-          exit 1
-        fi
+        # Pre-define the compatible version of ChromeDriver
+        # Replace the version below with the actual version corresponding to your browser.
+        DRIVER_VERSION="135.0.7049.114"
 
         # Download and install ChromeDriver
         wget https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip
