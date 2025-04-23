@@ -22,13 +22,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        # Update package list
         sudo apt-get update
-        
-        # Remove Chromium snap if it's installed
-        sudo snap remove chromium || true
-        
-        # Install Chromium from official APT repository
         sudo apt-get install -y chromium-browser
 
     - name: Get Chrome version
