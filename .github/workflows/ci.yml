@@ -36,14 +36,19 @@ jobs:
           echo "Chromium version found: $CHROME_VERSION"
         fi
 
-    - name: Get and install ChromeDriver
+    - name: Download and install ChromeDriver
       run: |
-        # Pre-define the compatible version of ChromeDriver
-        # Replace the version below with the actual version corresponding to your browser.
+        # Get the correct ChromeDriver version manually for Chrome version 135
         DRIVER_VERSION="135.0.7049.114"
-
-        # Download and install ChromeDriver
-        wget https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip
+        DRIVER_URL="https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip"
+        
+        echo "Downloading ChromeDriver from: $DRIVER_URL"
+        wget $DRIVER_URL
+        if [ $? -ne 0 ]; then
+          echo "Error: Failed to download ChromeDriver"
+          exit 1
+        fi
+        
         unzip chromedriver_linux64.zip
         sudo mv chromedriver /usr/local/bin/
         sudo chmod +x /usr/local/bin/chromedriver
