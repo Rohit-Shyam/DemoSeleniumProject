@@ -14,17 +14,35 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.UUID;
 
 public class StepDefinitions {
     public static WebDriver driver;
     WebDriverWait wait;
 
+    // Method to create a temporary directory for each test
+    public String createUniqueUserDataDir() {
+        // Create a unique folder name using UUID
+        String uniqueDir = "/tmp/chrome-user-data-" + UUID.randomUUID().toString();
+        Path path = Path.of(uniqueDir);
+        try {
+            // Create the directory
+            Files.createDirectories(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return uniqueDir;
+    }
+
     // === Task 1 ===
     @Given("I launch Wikipedia")
     public void launchWikipedia() {
-        // Set up ChromeOptions to avoid conflicts with user data
+        // Set up ChromeOptions with a unique user data directory
+        String userDataDir = createUniqueUserDataDir();  // Get unique user data directory
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+        options.addArguments("--user-data-dir=" + userDataDir);  // Use the unique user data dir
 
         driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
@@ -54,8 +72,10 @@ public class StepDefinitions {
     // === Task 2a ===
     @Given("I open ReactJS homepage")
     public void openReactHomepage() {
+        // Set up ChromeOptions with a unique user data directory
+        String userDataDir = createUniqueUserDataDir();  // Get unique user data directory
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+        options.addArguments("--user-data-dir=" + userDataDir);  // Use the unique user data dir
 
         driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
@@ -84,8 +104,10 @@ public class StepDefinitions {
     // === Task 2b ===
     @Given("I open IMDb homepage")
     public void openIMDbHomepage() {
+        // Set up ChromeOptions with a unique user data directory
+        String userDataDir = createUniqueUserDataDir();  // Get unique user data directory
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+        options.addArguments("--user-data-dir=" + userDataDir);  // Use the unique user data dir
 
         driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
@@ -121,8 +143,10 @@ public class StepDefinitions {
     // === Task 3 ===
     @Given("I open Wikipedia homepage")
     public void i_open_wikipedia_homepage() {
+        // Set up ChromeOptions with a unique user data directory
+        String userDataDir = createUniqueUserDataDir();  // Get unique user data directory
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+        options.addArguments("--user-data-dir=" + userDataDir);  // Use the unique user data dir
 
         driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
@@ -155,8 +179,10 @@ public class StepDefinitions {
     public void performCSVLoginTests() throws InterruptedException {
         List<String[]> testData = readTestData();
 
+        // Set up ChromeOptions with a unique user data directory
+        String userDataDir = createUniqueUserDataDir();  // Get unique user data directory
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+        options.addArguments("--user-data-dir=" + userDataDir);  // Use the unique user data dir
 
         driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
@@ -209,8 +235,10 @@ public class StepDefinitions {
     // === Task 5 ===
     @Given("I open SauceDemo login page")
     public void openSauceDemoLoginPage() {
+        // Set up ChromeOptions with a unique user data directory
+        String userDataDir = createUniqueUserDataDir();  // Get unique user data directory
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+        options.addArguments("--user-data-dir=" + userDataDir);  // Use the unique user data dir
 
         driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
@@ -252,8 +280,10 @@ public class StepDefinitions {
     // === Task 6 ===
     @Given("I open SauceDemo Task6 login page")
     public void openSauceDemoTask6LoginPage() {
+        // Set up ChromeOptions with a unique user data directory
+        String userDataDir = createUniqueUserDataDir();  // Get unique user data directory
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+        options.addArguments("--user-data-dir=" + userDataDir);  // Use the unique user data dir
 
         driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
