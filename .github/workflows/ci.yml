@@ -2,13 +2,12 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +24,11 @@ jobs:
       run: |
         # Update package list
         sudo apt-get update
-        # Install Chromium from official repository
+        
+        # Remove any previous Chromium installation from Snap
+        sudo snap remove chromium || true
+        
+        # Install Chromium from Ubuntu's official repositories
         sudo apt-get install -y chromium-browser
 
     - name: Download and install ChromeDriver
