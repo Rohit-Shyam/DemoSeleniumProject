@@ -21,6 +21,22 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
 
+    # Step to install Google Chrome
+    - name: Install Google Chrome
+      run: |
+        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        sudo apt install ./google-chrome-stable_current_amd64.deb
+
+    # Step to install ChromeDriver (matching with the installed Chrome version)
+    - name: Install ChromeDriver
+      run: |
+        LATEST=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE)
+        wget https://chromedriver.storage.googleapis.com/$LATEST/chromedriver_linux64.zip
+        unzip chromedriver_linux64.zip
+        sudo mv chromedriver /usr/local/bin/chromedriver
+        sudo chmod +x /usr/local/bin/chromedriver
+
+    # Cache Maven packages
     - name: Cache Maven packages
       uses: actions/cache@v3
       with:
@@ -28,5 +44,6 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-maven
 
+    # Build the project with Maven
     - name: Build with Maven
       run: mvn clean verify
