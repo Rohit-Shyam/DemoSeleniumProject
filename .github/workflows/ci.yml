@@ -25,13 +25,13 @@ jobs:
         # Update package list
         sudo apt-get update
         
-        # Remove any previous Chromium installation from Snap
+        # Remove Chromium snap if it's installed
         sudo snap remove chromium || true
         
-        # Install Chromium from Ubuntu's official repositories
+        # Install Chromium from official APT repository
         sudo apt-get install -y chromium-browser
 
-    - name: Download and install ChromeDriver
+    - name: Get Chrome version
       run: |
         # Get the version of Chromium installed
         CHROME_VERSION=$(chromium-browser --version | awk '{print $3}' | cut -d '.' -f1,2)
@@ -42,7 +42,9 @@ jobs:
           echo "Chromium version found: $CHROME_VERSION"
         fi
 
-        # Get the corresponding ChromeDriver version
+    - name: Get and install ChromeDriver
+      run: |
+        # Get the corresponding ChromeDriver version based on Chromium version
         DRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION})
 
         if [ -z "$DRIVER_VERSION" ]; then
