@@ -24,12 +24,12 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y wget unzip
+        sudo apt-get install -y wget unzip chromium-browser
 
     - name: Download and install ChromeDriver
       run: |
         # Get the current Chrome version
-        CHROME_VERSION=$(google-chrome-stable --version | awk '{print $3}' | cut -d '.' -f1,2)
+        CHROME_VERSION=$(chromium-browser --version | awk '{print $2}' | cut -d '.' -f1,2)
         
         # Download the matching ChromeDriver version
         DRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION})
