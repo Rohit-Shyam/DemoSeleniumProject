@@ -4,6 +4,7 @@ import io.cucumber.java.en.*;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -21,7 +22,11 @@ public class StepDefinitions {
     // === Task 1 ===
     @Given("I launch Wikipedia")
     public void launchWikipedia() {
-        driver = new ChromeDriver();
+        // Set up ChromeOptions to avoid conflicts with user data
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+
+        driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
         driver.get("https://www.wikipedia.com");
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -49,7 +54,10 @@ public class StepDefinitions {
     // === Task 2a ===
     @Given("I open ReactJS homepage")
     public void openReactHomepage() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+
+        driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
         driver.get("https://react.dev/");
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -76,7 +84,10 @@ public class StepDefinitions {
     // === Task 2b ===
     @Given("I open IMDb homepage")
     public void openIMDbHomepage() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+
+        driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
         driver.get("https://www.imdb.com");
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -110,7 +121,10 @@ public class StepDefinitions {
     // === Task 3 ===
     @Given("I open Wikipedia homepage")
     public void i_open_wikipedia_homepage() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+
+        driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
         driver.get("https://www.wikipedia.org/");
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -141,7 +155,10 @@ public class StepDefinitions {
     public void performCSVLoginTests() throws InterruptedException {
         List<String[]> testData = readTestData();
 
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+
+        driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -192,7 +209,10 @@ public class StepDefinitions {
     // === Task 5 ===
     @Given("I open SauceDemo login page")
     public void openSauceDemoLoginPage() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+
+        driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
         driver.get("https://www.saucedemo.com/");
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -232,7 +252,10 @@ public class StepDefinitions {
     // === Task 6 ===
     @Given("I open SauceDemo Task6 login page")
     public void openSauceDemoTask6LoginPage() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--user-data-dir=/tmp/chrome-user-data"); // Set unique user data dir
+
+        driver = new ChromeDriver(options);  // Use ChromeOptions
         driver.manage().window().maximize();
         driver.get("https://www.saucedemo.com/");
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
