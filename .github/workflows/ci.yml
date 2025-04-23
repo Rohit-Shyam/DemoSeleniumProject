@@ -28,12 +28,16 @@ jobs:
 
     - name: Download and install ChromeDriver
       run: |
-        # Get the current Chrome version
+        # Get the current Chrome version (Chromium browser in this case)
         CHROME_VERSION=$(chromium-browser --version | awk '{print $2}' | cut -d '.' -f1,2)
-        
+
+        # Fix potential issues with "touch" command and set up directory properly
+        mkdir -p /home/runner/.cache/chromium
+        touch /home/runner/.cache/chromium/desktop-runtime-date
+
         # Download the matching ChromeDriver version
         DRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION})
-        
+
         # Download and install ChromeDriver
         wget https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip
         unzip chromedriver_linux64.zip
