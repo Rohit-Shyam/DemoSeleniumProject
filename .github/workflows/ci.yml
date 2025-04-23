@@ -28,17 +28,13 @@ jobs:
 
     - name: Download and install ChromeDriver
       run: |
-        # Get the current Chrome version (Chromium browser in this case)
-        CHROME_VERSION=$(chromium-browser --version | awk '{print $2}' | cut -d '.' -f1,2)
+        # Get the current version of Chromium installed in the environment
+        CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f1,2)
 
-        # Fix potential issues with "touch" command and set up directory properly
-        mkdir -p /home/runner/.cache/chromium
-        touch /home/runner/.cache/chromium/desktop-runtime-date
-
-        # Download the matching ChromeDriver version
+        # Download the corresponding ChromeDriver version based on the Chrome version
         DRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION})
 
-        # Download and install ChromeDriver
+        # Download ChromeDriver zip and extract it
         wget https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip
         unzip chromedriver_linux64.zip
         sudo mv chromedriver /usr/local/bin/
