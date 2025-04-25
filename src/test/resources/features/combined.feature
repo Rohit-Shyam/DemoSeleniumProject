@@ -27,12 +27,12 @@ Feature: Basic Test
   Scenario: Task 5a - Login with valid credentials
     Given I open SauceDemo login page
     When I login with username "standard_user" and password "secret_sauce"
-    Then I should see the products page
+    Then I should see an error page   # Intentional failure here (expecting error page instead of products page)
 
   Scenario: Task 5b - Login with locked out user
     Given I open SauceDemo login page
-    When I login with username "locked_out_user" and password "secret_sauce"
-    Then I should see error "Epic sadface: Sorry, this user has been locked out."
+    When I login with username "locked_out_user" and password "wrong_password"
+    Then I should see error "This message will intentionally fail."   # Intentional failure (wrong error message)
 
   Scenario: Task 5c - Login with invalid password
     Given I open SauceDemo login page
