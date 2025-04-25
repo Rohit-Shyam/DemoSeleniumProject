@@ -4,60 +4,27 @@ import io.cucumber.java.en.*;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class StepDefinitions {
     public static WebDriver driver;
     WebDriverWait wait;
 
-    // Method to create a temporary directory for each test
-    public String createUniqueUserDataDir() {
-        // Create a unique folder name using UUID
-        String uniqueDir = "/tmp/chrome-user-data-" + UUID.randomUUID().toString();
-        Path path = Path.of(uniqueDir);
-        try {
-            // Create the directory
-            Files.createDirectories(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return uniqueDir;
-    }
-
-    // Method to set up ChromeDriver with the necessary ChromeOptions
-    public WebDriver setupDriver() {
-        // Create ChromeOptions and set arguments
-        String userDataDir = createUniqueUserDataDir();  // Get unique user data directory
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // Run in headless mode
-        options.addArguments("--no-sandbox"); // Disable sandbox for CI/CD environments
-        options.addArguments("--disable-dev-shm-usage"); // Avoid /dev/shm memory issues
-        options.addArguments("--remote-debugging-port=9222"); // Enable debugging
-        options.addArguments("--user-data-dir=" + userDataDir);  // Use the unique user data dir
-
-        driver = new ChromeDriver(options);  // Initialize ChromeDriver with options
-        driver.manage().window().maximize();  // Maximize the window
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        return driver;
-    }
-
     // === Task 1 ===
     @Given("I launch Wikipedia")
     public void launchWikipedia() {
-        driver = setupDriver();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.get("https://www.wikipedia.com");
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @When("I search for {string}")
@@ -75,14 +42,17 @@ public class StepDefinitions {
         Assert.assertTrue("Expected 'Wikipedia' in title but got: " + title, title.contains("Wikipedia"));
         Thread.sleep(1000);
         driver.quit();
+        Thread.sleep(1000);
         driver = null;
     }
 
     // === Task 2a ===
     @Given("I open ReactJS homepage")
     public void openReactHomepage() {
-        driver = setupDriver();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.get("https://react.dev/");
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @When("I click the Learn React link")
@@ -99,14 +69,17 @@ public class StepDefinitions {
         Assert.assertTrue("Quick Start section is not visible", quickStart.isDisplayed());
         Thread.sleep(1000);
         driver.quit();
+        Thread.sleep(1000);
         driver = null;
     }
 
     // === Task 2b ===
     @Given("I open IMDb homepage")
     public void openIMDbHomepage() {
-        driver = setupDriver();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.get("https://www.imdb.com");
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @Then("The IMDb title should match expected")
@@ -130,14 +103,17 @@ public class StepDefinitions {
         searchBtn.click();
         Thread.sleep(2000);
         driver.quit();
+        Thread.sleep(1000);
         driver = null;
     }
 
     // === Task 3 ===
     @Given("I open Wikipedia homepage")
     public void i_open_wikipedia_homepage() {
-        driver = setupDriver();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.get("https://www.wikipedia.org/");
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @Then("Wikipedia logo and search box should be visible")
@@ -156,6 +132,7 @@ public class StepDefinitions {
         searchBox.sendKeys(Keys.ENTER);
         Thread.sleep(2000);
         driver.quit();
+        Thread.sleep(1000);
         driver = null;
     }
 
@@ -163,7 +140,10 @@ public class StepDefinitions {
     @Given("I perform login tests using CSV data")
     public void performCSVLoginTests() throws InterruptedException {
         List<String[]> testData = readTestData();
-        driver = setupDriver();
+
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         for (String[] data : testData) {
             String username = data[0];
@@ -190,6 +170,7 @@ public class StepDefinitions {
 
         Thread.sleep(1000);
         driver.quit();
+        Thread.sleep(1000);
         driver = null;
     }
 
@@ -211,8 +192,10 @@ public class StepDefinitions {
     // === Task 5 ===
     @Given("I open SauceDemo login page")
     public void openSauceDemoLoginPage() {
-        driver = setupDriver();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.get("https://www.saucedemo.com/");
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @When("I login with username {string} and password {string}")
@@ -249,8 +232,15 @@ public class StepDefinitions {
     // === Task 6 ===
     @Given("I open SauceDemo Task6 login page")
     public void openSauceDemoTask6LoginPage() {
-        driver = setupDriver();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.get("https://www.saucedemo.com/");
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @When("I enter Task6 username {string} and password {string}")
@@ -264,6 +254,33 @@ public class StepDefinitions {
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
         loginButton.click();
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Then("I should see Task6 error message {string}")
+    public void verifyTask6ErrorMessage(String expectedMessage) {
+        try {
+            WebElement errorMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-test='error']")));
+            String actual = errorMsg.getText();
+            Assert.assertTrue("Expected message not found", actual.contains(expectedMessage));
+            System.out.println("✔ Task6: Correct error message displayed.");
+        } catch (Exception e) {
+            System.out.println("✘ Task6: Error message not found or mismatch.");
+            Assert.fail("Expected error message not found");
+        }
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        driver.quit();
+        driver = null;
     }
 
     @Then("I should successfully login for Task6")
@@ -276,6 +293,11 @@ public class StepDefinitions {
             throw e;
         }
 
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         driver.quit();
         driver = null;
     }
